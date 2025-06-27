@@ -1,1 +1,12 @@
-[]
+[
+  {
+    "note_id": 1,
+    "title": "groceries",
+    "body": "eggs, milk, bread, cheese"
+  },
+  {
+    "note_id": 2,
+    "title": "homework",
+    "body": "math, english, cs"
+  }
+]
