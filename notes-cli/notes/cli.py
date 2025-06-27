@@ -42,9 +42,18 @@ def delete(note_id):
     """Delete a note by ID."""
     notes = load_notes()
 
-    new_notes = [n for n in notes if n["note_id"] != note_id] # Filters out the deleted note
+    # new_notes = [n for n in notes if n["note_id"] != note_id] # Filters out the deleted note 
+    new_notes = []
 
-    if (len(new_notes)) == len(notes): # check if the length changed
+    for n in notes:
+        if n["note_id"] == note_id:
+            found = True
+            continue # skip deleted note
+        elif n["note_id"] > note_id: # notes after the deleted
+            n["note_id"] -= 1
+        new_notes.append(n)
+
+    if not found:
         click.echo(f"Note #{note_id} not found. ❌")
     else:
         saves_notes(new_notes)
