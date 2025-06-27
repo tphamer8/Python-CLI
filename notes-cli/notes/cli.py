@@ -72,3 +72,9 @@ def list():
     for note in notes:
         click.echo(f"{note['note_id']}. {note['title']}")
 
+@main.command()
+def clear():
+    """Deletes all notes"""
+    saves_notes([])
+
+
