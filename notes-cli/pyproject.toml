@@ -1,0 +1,18 @@
+[project]
+name = "notes"
+version = "0.1.0"
+description = "Awesome note taking tool"
+authors = [
+    {name = "Your Name",email = "you@example.com"}
+]
+license = {text = "MIT"}
+readme = "README.md"
+requires-python = "^3.11"
+dependencies = [
+    "click (>=8.2.1,<9.0.0)"
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
