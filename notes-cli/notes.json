@@ -1,12 +1,12 @@
 [
   {
     "note_id": 1,
-    "title": "homework",
+    "title": "Homework",
     "body": "math, english, history, cs"
   },
   {
     "note_id": 2,
-    "title": "groceries",
+    "title": "Groceries",
     "body": "chips, crackers, honey, milk, bread"
   }
 ]

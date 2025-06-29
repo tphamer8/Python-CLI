@@ -49,6 +49,11 @@ def delete(note_id):
     new_notes = []
     found = False
 
+
+
+
+    
+
     for n in notes:
         if n["note_id"] == note_id:
             found = True
@@ -92,17 +97,20 @@ def display(note_id):
     right = len(notes)
 
     # Binary Search
-    while left < right:
-        mid = left + (right - left) // 2
-        if note_id < mid:
+    while left <= right:
+        mid = (left+right) // 2
+        current_id = notes[mid]['note_id']
+
+        if note_id < current_id:
             right = mid - 1
-        elif note_id > mid:
+        elif note_id > current_id:
             left = mid + 1
         else:
             note = notes[mid]
             click.echo(f"{note['note_id']} . {note['title']} : {note['body']}")
             return
         
+    click.echo("Note not found.")
     return
 
 
