@@ -74,11 +74,51 @@ def list():
     
     click.echo("Notes:")
     for note in notes:
-        click.echo(f"{note['note_id']}. {note['title']}")
+        click.echo(f"{note['note_id']} . {note['title']}")
 
 @main.command()
 def clear():
     """Deletes all notes"""
     save_notes([])
+
+@main.command()
+@click.argument("note_id", type=int)
+def display(note_id):
+    """Display a note by ID."""
+    notes = load_notes()
+    # found = False
+
+    left = 0
+    right = len(notes)
+
+    # Binary Search
+    while left < right:
+        mid = left + (right - left) // 2
+        if note_id < mid:
+            right = mid - 1
+        elif note_id > mid:
+            left = mid + 1
+        else:
+            note = notes[mid]
+            click.echo(f"{note['note_id']} . {note['title']} : {note['body']}")
+            return
+        
+    return
+
+
+
+    # for n in notes:
+    #     if n["note_id"] == note_id:
+    #         found = True
+    #         continue # skip deleted note
+    #     elif n["note_id"] > note_id: # notes after the deleted
+    #         n["note_id"] -= 1
+    #     new_notes.append(n)
+
+    # if not found:
+    #     click.echo(f"Note #{note_id} not found. ❌")
+    # else:
+    #     save_notes(new_notes)
+    #     click.echo(f"Deleted note #{note_id} 🗑️")
 
 
