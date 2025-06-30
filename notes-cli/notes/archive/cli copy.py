@@ -78,3 +78,53 @@ def clear():
     saves_notes([])
 
 
+@main.command()
+@click.argument("note_id", type=int)
+def display(note_id):
+    """Display a note by ID."""
+    notes = load_notes()
+    # found = False
+
+    left = 0
+    right = len(notes)
+
+    # Binary Search
+    while left <= right:
+        mid = (left+right) // 2
+        current_id = notes[mid]['note_id']
+
+        if note_id < current_id:
+            right = mid - 1
+        elif note_id > current_id:
+            left = mid + 1
+        else:
+            note = notes[mid]
+            click.echo(f"{note['note_id']} . {note['title']} : {note['body']}")
+            return
+        
+    click.echo("Note not found.")
+    return
+
+def find_note(note_id):
+    notes = load_notes()
+    left = 0
+    right = len(notes)
+    if note_id > right:
+        return -1
+
+    # Binary Search
+    while left <= right:
+        mid = (left+right) // 2
+        current_id = notes[mid]['note_id']
+
+        if note_id < current_id:
+            right = mid - 1
+        elif note_id > current_id:
+            left = mid + 1
+        else:
+            note = notes[mid]
+            return note
+
+    click.echo("Note not found.")
+
+

@@ -49,11 +49,6 @@ def delete(note_id):
     new_notes = []
     found = False
 
-
-
-
-    
-
     for n in notes:
         if n["note_id"] == note_id:
             found = True
@@ -90,43 +85,24 @@ def clear():
 @click.argument("note_id", type=int)
 def display(note_id):
     """Display a note by ID."""
+
     notes = load_notes()
-    # found = False
+    length = len(notes)
 
-    left = 0
-    right = len(notes)
+    if note_id > length: # Check if not exists
+        click.echo("Note not found.")
+        return
+    else:
+        note = notes[note_id - 1]
+        click.echo(f"{note['note_id']} . {note['title']} : {note['body']}")
 
-    # Binary Search
-    while left <= right:
-        mid = (left+right) // 2
-        current_id = notes[mid]['note_id']
-
-        if note_id < current_id:
-            right = mid - 1
-        elif note_id > current_id:
-            left = mid + 1
-        else:
-            note = notes[mid]
-            click.echo(f"{note['note_id']} . {note['title']} : {note['body']}")
-            return
-        
-    click.echo("Note not found.")
-    return
+# @main.command()
+# @click.argument("note_id", type=int)
+# @click.argument("body")
+# def bodyR(note_id, body):
+#     """Replace note body"""
+    
 
 
-
-    # for n in notes:
-    #     if n["note_id"] == note_id:
-    #         found = True
-    #         continue # skip deleted note
-    #     elif n["note_id"] > note_id: # notes after the deleted
-    #         n["note_id"] -= 1
-    #     new_notes.append(n)
-
-    # if not found:
-    #     click.echo(f"Note #{note_id} not found. ❌")
-    # else:
-    #     save_notes(new_notes)
-    #     click.echo(f"Deleted note #{note_id} 🗑️")
 
 
