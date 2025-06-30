@@ -81,11 +81,8 @@ def clear():
     """Deletes all notes"""
     save_notes([])
 
-@main.command()
-@click.argument("note_id", type=int)
-def display(note_id):
-    """Display a note by ID."""
-
+def find_note(note_id):
+    
     notes = load_notes()
     length = len(notes)
 
@@ -93,15 +90,27 @@ def display(note_id):
         click.echo("Note not found.")
         return
     else:
-        note = notes[note_id - 1]
+        return notes[note_id - 1]
+
+@main.command()
+@click.argument("note_id", type=int)
+def display(note_id):
+    """Display a note by ID."""
+
+    note = find_note(note_id)
+    if note:
         click.echo(f"{note['note_id']} . {note['title']} : {note['body']}")
 
-# @main.command()
-# @click.argument("note_id", type=int)
-# @click.argument("body")
-# def bodyR(note_id, body):
-#     """Replace note body"""
+@main.command()
+@click.argument("note_id", type=int)
+@click.argument("body")
+def bodyr(note_id, body):
+    """Replace note body"""
     
+    note = find_note(note_id)
+    if note:
+        note['body'] = body
+        click.echo(f"Replaced body - {note['note_id']} . {note['title']} : {note['body']}")
 
 
 
