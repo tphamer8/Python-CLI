@@ -2,6 +2,7 @@ import click
 from notes.cli_state import cli_state
 import json
 import os
+from pydantic import BaseModel
 
 @click.group() # turns a function (main) into  a commmand group - top lvl CLI command
 @click.option("--file", type=click.Path(), default="notes.json", help="Path to notes file")
@@ -84,33 +85,67 @@ def clear():
 def find_note(note_id):
     
     notes = load_notes()
+    index = note_id - 1
     length = len(notes)
 
-    if note_id > length: # Check if not exists
+    if 1 <= index < length: # Check if not exists
+        return notes[index]
+    else:
         click.echo("Note not found.")
         return
-    else:
-        return notes[note_id - 1]
 
 @main.command()
-@click.argument("note_id", type=int)
+@click.argument("note_id")
 def display(note_id):
     """Display a note by ID."""
 
-    note = find_note(note_id)
-    if note:
-        click.echo(f"{note['note_id']} . {note['title']} : {note['body']}")
+    notes = load_notes()
+
+    if note_id.lower() == "all":
+        if not notes:
+            click.echo("No notes found.")
+        for note in notes:
+            click.echo(f"{note['note_id']} . {note['title']} : {note['body']}")
+    else:
+        try:
+            note_id = int(note_id)
+        except ValueError:
+            click.echo("Invalid note ID. Use an integer or 'all'.")
+            return
+        
+        note = find_note(note_id)
+        if note:
+            click.echo(f"{note['note_id']} . {note['title']} : {note['body']}")
 
 @main.command()
 @click.argument("note_id", type=int)
 @click.argument("body")
 def bodyr(note_id, body):
     """Replace note body"""
-    
-    note = find_note(note_id)
-    if note:
-        note['body'] = body
-        click.echo(f"Replaced body - {note['note_id']} . {note['title']} : {note['body']}")
+    notes = load_notes()
+    index = note_id - 1
+
+    if 0 <= index < len(notes):
+        notes[index]['body'] = body
+        save_notes(notes)
+        click.echo(f"Replaced body – {notes[index]['note_id']} . {notes[index]['title']} : {notes[index]['body']}")
+    else:
+        click.echo("Note not found.")
+
+@main.command()
+@click.argument("note_id", type=int)
+@click.argument("body")
+def bodya(note_id, body):
+    """Append to note body"""
+    notes = load_notes()
+    index = note_id - 1
+
+    if 0 <= index < len(notes):
+        notes[index]['body'] += ", " + body
+        save_notes(notes)
+        click.echo(f"Appended body – {notes[index]['note_id']} . {notes[index]['title']} : {notes[index]['body']}")
+    else:
+        click.echo("Note not found.")
 
 
 

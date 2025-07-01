@@ -2,11 +2,16 @@
   {
     "note_id": 1,
     "title": "Homework",
-    "body": "math, english, history, cs"
+    "body": "math, english, history, cs, biology, PE"
   },
   {
     "note_id": 2,
     "title": "Groceries",
     "body": "chips, crackers, honey, milk, bread"
+  },
+  {
+    "note_id": 3,
+    "title": "Exercise",
+    "body": "Lift, Climb, Run, Walk, Stretch"
   }
 ]
